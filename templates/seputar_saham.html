@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seputar Saham</title>
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="static/css/diagoona.css" rel="stylesheet" />
+    <link href="static/css/animate.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        h1 {
+            color: #007bff;
+            margin-top: 30px;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        p {
+            color: #6c757d;
+        }
+
+        .container {
+            margin-top: 30px;
+        }
+
+        .parameter-card {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .parameter-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            color: #007bff;
+            font-size: 1.75rem;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 10px;
+            transition: opacity 0.3s ease;
+        }
+
+        img:hover {
+            opacity: 0.8;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+            text-align: right; /* Align to the right */
+        }
+
+        .btn-back {
+            background-color: #007bff; /* Button color */
+            color: #fff; /* Text color */
+            border: none;
+            border-radius: 5px;
+            padding: 8px 18px;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px; /* Space below the button */
+            font-size: 1.2rem;
+        }
+
+        .btn-back:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        .search-input {
+            width: 300px; /* Width of the search input */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" >
+        <h1 class="text-center">Seputar Saham</h1>
+        <p class="text-center">Pahami pengertian berbagai parameter saham dan analisisnya.</p>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" class="form-control search-input" placeholder="Cari parameter saham...">
+        </div>
+
+        <div class="text-left">
+            <a href="{{ url_for('index') }}" class="btn btn-back">Kembali ke Dashboard</a>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="parameter-card">
+                    <h2>1. PBV (Price to Book Value)</h2>
+                    <p>PBV menunjukkan nilai pasar suatu saham dibandingkan dengan nilai bukunya. Jika PBV di bawah 1, saham dianggap undervalue.</p>
+                    <img src="static/images/proof_pbv.png" alt="Grafik PBV" class="img-fluid" data-toggle="modal" data-target="#zoomImage1">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="parameter-card">
+                    <h2>2. PER (Price Earnings Ratio)</h2>
+                    <p>PER adalah rasio harga saham terhadap laba per sahamnya. Rasio ini menunjukkan seberapa mahal harga saham dibandingkan dengan laba yang dihasilkan.</p>
+                    <img src="static/images/proof_per.png" alt="Grafik PER" class="img-fluid" data-toggle="modal" data-target="#zoomImage2">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="parameter-card">
+                    <h2>3. ROE (Return on Equity)</h2>
+                    <p>ROE mengukur seberapa efektif perusahaan menghasilkan laba dari ekuitas pemegang saham. Semakin tinggi ROE, semakin baik kinerja perusahaan.</p>
+                    <img src="static/images/proof_roe.png" alt="Grafik ROE" class="img-fluid" data-toggle="modal" data-target="#zoomImage3">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="parameter-card">
+                    <h2>4. ROA (Return on Assets)</h2>
+                    <p>ROA menunjukkan seberapa efisien perusahaan menggunakan asetnya untuk menghasilkan laba. ROA yang tinggi menandakan efisiensi yang baik.</p>
+                    <img src="static/images/proof_roa.png" alt="Grafik ROA" class="img-fluid" data-toggle="modal" data-target="#zoomImage4">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="parameter-card">
+                    <h2>5. DER (Debt to Equity Ratio)</h2>
+                    <p>DER mengukur proporsi utang perusahaan terhadap ekuitasnya. Rasio yang tinggi menunjukkan risiko keuangan yang lebih besar.</p>
+                    <img src="static/images/proof_der.png" alt="Grafik DER" class="img-fluid" data-toggle="modal" data-target="#zoomImage5">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="parameter-card">
+                    <h2>6. RSI (Relative Strength Index)</h2>
+                    <p>RSI adalah indikator momentum yang mengukur kecepatan dan perubahan pergerakan harga. RSI di atas 70 menunjukkan overbought, di bawah 30 menunjukkan oversold.</p>
+                    <img src="static/images/proof_rsi.png" alt="Grafik RSI" class="img-fluid" data-toggle="modal" data-target="#zoomImage6">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="parameter-card">
+                    <h2>7. IPO (Initial Public Offering)</h2>
+                    <p>IPO adalah proses di mana perusahaan menjual sahamnya kepada publik untuk pertama kalinya. Ini merupakan langkah penting dalam penggalangan dana.</p>
+                    <img src="static/images/ipo1.webp" alt="Gambar IPO" class="img-fluid" data-toggle="modal" data-target="#zoomImage7">
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="parameter-card">
+                    <h2>8. Fundamental</h2>
+                    <p>Analisis fundamental adalah metode yang digunakan untuk mengevaluasi kondisi keuangan, kinerja, dan prospek perusahaan berdasarkan data finansial dan faktor ekonomi. Analisis ini bertujuan untuk menilai nilai intrinsik saham, mempertimbangkan faktor seperti pendapatan, keuntungan, laba bersih, serta kondisi pasar yang lebih luas.</p>
+                    <img src="static/images/fundamental1.jpg" alt="Gambar Fundamental" class="img-fluid" data-toggle="modal" data-target="#zoomImage8">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="parameter-card">
+                    <h2>9. Teknikal</h2>
+                    <p>Analisis teknikal adalah metode yang memanfaatkan data historis harga dan volume perdagangan saham untuk memprediksi pergerakan harga di masa mendatang. Dengan memanfaatkan grafik dan pola-pola yang muncul, analis teknikal berupaya menentukan tren dan potensi titik pembelian atau penjualan.</p>
+                    <img src="static/images/technical1.jpg" alt="Gambar Teknikal" class="img-fluid" data-toggle="modal" data-target="#zoomImage9">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="parameter-card">
+                    <h2>10. Net Income</h2>
+                    <p>Laba bersih adalah keuntungan akhir yang diperoleh perusahaan setelah dikurangi semua biaya, termasuk pajak dan bunga. Laba bersih menunjukkan performa keuangan perusahaan secara keseluruhan, dan sering digunakan untuk menilai profitabilitas.</p>
+                    <img src="static/images/proof_net_income.png" alt="Grafik Net Income" class="img-fluid" data-toggle="modal" data-target="#zoomImage10">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="parameter-card">
+                    <h2>11. Underwriter</h2>
+                    <p>Underwriter adalah pihak yang bertanggung jawab atas proses penjaminan emisi efek, seperti saham dalam penawaran umum perdana (IPO). Mereka menilai risiko investasi dan membeli sebagian atau seluruh saham untuk dijual kembali kepada investor.</p>
+                    <img src="static/images/underwriter.png" alt="Gambar Underwriter" class="img-fluid" data-toggle="modal" data-target="#zoomImage11">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="parameter-card">
+                    <h2>12. Moving Average</h2>
+                    <p>Moving Average adalah rata-rata harga saham selama periode waktu tertentu yang terus diperbarui, seperti 50 atau 200 hari. Moving average membantu mengidentifikasi tren harga jangka pendek dan panjang, yang bermanfaat dalam analisis teknikal.</p>
+                    <img src="static/images/proof_ma.png" alt="Gambar Moving Average" class="img-fluid" data-toggle="modal" data-target="#zoomImage12">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="parameter-card">
+                    <h2>13. Supply and Demand</h2>
+                    <p>Supply dan Demand atau penawaran dan permintaan mencerminkan hubungan antara jumlah saham yang tersedia dan minat beli investor. Jika permintaan lebih tinggi dari penawaran, harga cenderung naik, dan sebaliknya.</p>
+                    <img src="static/images/proof_supply_demand.png" alt="Grafik Supply and Demand" class="img-fluid" data-toggle="modal" data-target="#zoomImage13">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="parameter-card">
+                    <h2>14. Net Foreign Inflow and Outflow</h2>
+                    <p>Net foreign adalah selisih antara jumlah pembelian dan penjualan saham oleh investor asing dalam suatu periode. Angka positif menunjukkan investor asing lebih banyak membeli, sedangkan angka negatif menunjukkan lebih banyak menjual.</p>
+                    <img src="static/images/proof_net_foreign_inflow.png" alt="Grafik Net Foreign Inflow and Outflow" class="img-fluid" data-toggle="modal" data-target="#zoomImage14">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="parameter-card">
+                    <h2>15. Resistance</h2>
+                    <p>Resistance adalah level harga tertentu di mana saham cenderung berhenti naik dan mulai berbalik turun. Resistance sering dianggap sebagai titik untuk menjual karena harga cenderung sulit naik melewati level ini.</p>
+                    <img src="static/images/proof_resistance.png" alt="Grafik Resistance" class="img-fluid" data-toggle="modal" data-target="#zoomImage15">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="parameter-card">
+                    <h2>16. Support</h2>
+                    <p>Support adalah level harga tertentu di mana saham cenderung berhenti turun dan mulai berbalik naik. Support sering dianggap sebagai titik aman untuk membeli, karena harga diperkirakan akan naik setelahnya.</p>
+                    <img src="static/images/proof_support.png" alt="Grafik Support" class="img-fluid" data-toggle="modal" data-target="#zoomImage16">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="parameter-card">
+                    <h2>17. Warrant</h2>
+                    <p>Warrant adalah instrumen keuangan yang memberi hak kepada pemegangnya untuk membeli saham perusahaan pada harga tertentu sebelum tanggal jatuh tempo. Biasanya digunakan untuk menarik investor dan meningkatkan modal perusahaan.</p>
+                    <img src="static/images/warrant.jpg" alt="Grafik Warrant" class="img-fluid" data-toggle="modal" data-target="#zoomImage17">
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Modal untuk Gambar -->
+        <div class="modal fade" id="zoomImage1" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Grafik PBV</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="static/images/proof_pbv.png" alt="Grafik PBV" class="img-fluid" style="max-width: 90%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="zoomImage2" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Grafik PER</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="static/images/proof_per.png" alt="Grafik PER" class="img-fluid" style="max-width: 90%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="zoomImage3" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Grafik ROE</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="static/images/proof_roe.png" alt="Grafik ROE" class="img-fluid" style="max-width: 90%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="zoomImage4" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Grafik ROA</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="static/images/proof_roa.png" alt="Grafik ROA" class="img-fluid" style="max-width: 90%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="zoomImage5" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Grafik DER</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="static/images/proof_der.png" alt="Grafik DER" class="img-fluid" style="max-width: 90%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="zoomImage6" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Grafik RSI</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="static/images/proof_rsi.png" alt="Grafik RSI" class="img-fluid" style="max-width: 90%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="zoomImage7" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Grafik IPO</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="static/images/ipo1.webp" alt="Grafik IPO" class="img-fluid" style="max-width: 90%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="zoomImage8" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Grafik IPO</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="static/images/fundamental1.jpg" alt="Grafik IPO" class="img-fluid" style="max-width: 90%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="zoomImage9" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Grafik IPO</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="static/images/technical1.png" alt="Grafik IPO" class="img-fluid" style="max-width: 90%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="zoomImage10" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Grafik IPO</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="static/images/proof_net_income.png" alt="Grafik IPO" class="img-fluid" style="max-width: 90%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="zoomImage11" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Grafik IPO</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="static/images/underwriter.png" alt="Grafik IPO" class="img-fluid" style="max-width: 90%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="zoomImage12" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Grafik IPO</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="static/images/proof_ma.png" alt="Grafik IPO" class="img-fluid" style="max-width: 90%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="zoomImage13" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Grafik IPO</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="static/images/proof_supply_demand.png" alt="Grafik IPO" class="img-fluid" style="max-width: 90%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="zoomImage14" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Grafik IPO</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="static/images/proof_net_foreign_inflow.png" alt="Grafik IPO" class="img-fluid" style="max-width: 90%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="zoomImage15" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Grafik IPO</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="static/images/proof_resistance.png" alt="Grafik IPO" class="img-fluid" style="max-width: 90%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="zoomImage16" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Grafik IPO</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="static/images/proof_support.png" alt="Grafik IPO" class="img-fluid" style="max-width: 90%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="zoomImage17" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Grafik IPO</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="static/images/warrant.jpg" alt="Grafik IPO" class="img-fluid" style="max-width: 90%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="static/js/jquery-3.4.1.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+</body>
+
+</html>

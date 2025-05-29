@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}">
+    <title>Data Fundamental Saham</title>
+    <style>
+        /* Style untuk tampilan header */
+        .header {
+            background-color: #007bff; /* Warna biru */
+            color: white; /* Warna teks */
+            padding: 10px 0; /* Spasi atas dan bawah */
+            text-align: center; /* Memusatkan teks */
+            position: relative; /* Posisi relatif untuk tombol */
+        }
+
+        .btn-back {
+            position: absolute;
+            top: 10px; /* Jarak dari atas */
+            left: 10px; /* Jarak dari kiri */
+        }
+
+        .search-bar {
+            position: absolute;
+            top: 10px; /* Jarak dari atas */
+            right: 10px; /* Jarak dari kanan */
+            width: 200px; /* Lebar kotak pencarian */
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            transition: transform 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- Header dengan tombol back dan search -->
+        <div class="header">
+            <a href="/services" class="btn btn-light btn-back"><i class="fas fa-arrow-left"></i> Kembali</a>
+            <h2 class="mb-0">Data Fundamental Saham</h2>
+            <form class="search-bar" action="/search" method="GET">
+                <input type="text" class="form-control" placeholder="Search..." name="query">
+            </form>
+        </div>
+
+        <div class="row mt-4">
+            {% for symbol, data in stock_data.items() %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">{{ symbol }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><i class="fas fa-chart-bar"></i> <strong>PBV:</strong> {{ data['PBV'] }}</p>
+                        <p><i class="fas fa-chart-line"></i> <strong>PER:</strong> {{ data['PER'] }}</p>
+                        <p><i class="fas fa-chart-pie"></i> <strong>ROE:</strong> {{ data['ROE'] }}</p>
+                        <p><i class="fas fa-money-bill-wave"></i> <strong>Net Income:</strong> {{ data['Net Income'] }}</p>
+                        <p><i class="fas fa-building"></i> <strong>DER:</strong> {{ data['DER'] }}</p>
+                        <p><i class="fas fa-bank"></i> <strong>ROA:</strong> {{ data['ROA'] }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</body>
+</html>

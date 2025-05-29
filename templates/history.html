@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Recommendation History</title>
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .header-section {
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 0;
+            text-align: center;
+        }
+
+        .content-section {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .btn-back {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background-color: #0056b3;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .btn-like {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-like:hover {
+            background-color: #218838;
+        }
+
+        .card-summary {
+            margin-bottom: 30px;
+            background-color: #17a2b8;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-summary h5 {
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+
+        .card-summary p {
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header dengan latar belakang berbeda -->
+    <div class="header-section">
+        <div class="container">
+            <h1>History of Recommendations</h1>
+        </div>
+    </div>
+
+    <!-- Konten utama dengan latar belakang berbeda -->
+    <div class="content-section">
+        <div class="container">
+            <!-- Baris untuk tombol kembali dan tombol view -->
+            <div class="d-flex justify-content-between mb-4">
+                <a href="/fundamental_analyze" class="btn btn-light btn-back">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+
+                <div>
+                    <a href="/history_technical" class="btn btn-primary me-2">View Technical Analysis History</a>
+                    <a href="/history_ipo" class="btn btn-primary">View IPO Analysis History</a>
+                </div>
+            </div>
+
+            <!-- Konten Utama: Summary Card dan Tabel -->
+            <div class="row">
+                <!-- Sidebar dengan ringkasan -->
+                <div class="col-md-4">
+            <!-- Summary Card untuk Rekomendasi Terbaik -->
+                    <div class="card-summary">
+                        <h5>Top Recommendation</h5>
+                        {% if highest_roe %}
+                            <p>{{ highest_roe.recommendation }} memiliki PBV {{ highest_roe.pbv }} dan ROE {{ highest_roe.roe }}%.</p>
+                        {% else %}
+                            <p>Tidak ada rekomendasi tersedia.</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Summary Card untuk Top Like -->
+                    <div class="card-summary">
+                        <h5>Top Like Saham</h5>
+                        {% if most_liked %}
+                            <p>{{ most_liked.recommendation }} dengan {{ most_liked.likes }} likes.</p>
+                        {% else %}
+                            <p>Tidak ada rekomendasi yang disukai.</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Tabel utama -->
+                <div class="col-md-8">
+                    <table class="table table-striped table-hover table-bordered mt-3">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>PBV</th>
+                                <th>PER</th>
+                                <th>ROE</th>
+                                <th>Net Income</th>
+                                <th>DER</th>
+                                <th>ROA</th>
+                                <th>Recommendation</th>
+                                <th>Likes</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for recommendation in recommendations %}
+                            <tr>
+                                <td>{{ recommendation.id }}</td>
+                                <td>{{ recommendation.pbv }}</td>
+                                <td>{{ recommendation.per }}</td>
+                                <td>{{ recommendation.roe }}</td>
+                                <td>{{ recommendation.net_income }}</td>
+                                <td>{{ recommendation.der }}</td>
+                                <td>{{ recommendation.roa }}</td>
+                                <td>{{ recommendation.recommendation }}</td>
+                                <td>
+                                    <form action="{{ url_for('like_recommendation', id=recommendation.id) }}" method="POST">
+                                        <button type="submit" class="btn-like">
+                                            <i class="fas fa-thumbs-up"></i> Like ({{ recommendation.likes }})
+                                        </button>
+                                    </form>
+
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+
+</body>
+</html>

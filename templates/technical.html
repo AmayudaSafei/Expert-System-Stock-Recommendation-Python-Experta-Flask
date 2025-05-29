@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <title>Technical Analysis</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh; /* Mengatur tinggi halaman penuh */
+            font-family: 'Roboto', sans-serif; /* Menggunakan font Roboto */
+            background-color: #f8f9fa; /* Warna latar belakang halaman */
+        }
+
+        /* Gaya Sidebar */
+        .sidebar {
+            background-color: #343a40; /* Warna latar belakang sidebar */
+            color: white;
+            width: 60px; /* Sidebar menyempit menampilkan hanya ikon */
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%; /* Tinggi penuh */
+            transition: width 0.3s; /* Transisi saat sidebar dibuka */
+            box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sidebar:hover {
+            width: 250px; /* Sidebar melebar saat kursor diarahkan */
+        }
+
+        /* Garis warna di sebelah kiri */
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            /* background-color: #007bff;  Warna garis biru */
+        }
+
+        /* Ikon sidebar */
+        .sidebar i {
+            font-size: 24px;
+            margin: 20px 0;
+            color: white;
+        }
+
+        /* Sembunyikan teks dalam sidebar sebelum hover */
+        .sidebar .menu-text {
+            display: none;
+            margin-left: 10px;
+        }
+
+        /* Tampilkan teks sidebar setelah hover */
+        .sidebar:hover .menu-text {
+            display: inline;
+        }
+
+        .content-wrapper {
+            display: flex;
+            justify-content: center; /* Menyusun form di tengah */
+            align-items: flex-start; /* Menyusun form di bagian atas */
+            width: 100%;
+            padding: 50px;
+            margin-left: 60px; /* Awalnya margin saat sidebar tertutup */
+            transition: margin-left 0.3s;
+        }
+
+        .form-section {
+            flex: 1;
+            max-width: 600px;
+            transition: margin-left 0.3s;
+        }
+
+        .sidebar:hover ~ .content-wrapper .form-section {
+            margin-left: 250px; /* Menggeser form saat sidebar terbuka */
+        }
+
+        .info-section-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            flex: 0 0 300px;
+            margin-left: 20px;
+        }
+
+        .info-section {
+            padding: 20px;
+            background-color: #e9ecef;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            
+        }
+
+        h1 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        h2 a {
+        color: #343a40; /* Mengubah warna teks link dalam h2 menjadi kuning */
+        text-decoration: none; /* Menghilangkan garis bawah dari teks link */
+        }
+
+        /* Gaya form */
+        #resultBox {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+            z-index: 999;
+            border-radius: 10px;
+            overflow: hidden; /* Untuk menjaga agar emoji tidak keluar dari box */
+        }
+
+        .emoji-container {
+            position: absolute;
+            top: 10px; /* Jarak dari atas */
+            right: 10px; /* Jarak dari kanan */
+            font-size: 40px; /* Ukuran emoji */
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+
+        /* Transisi untuk tombol */
+        .btn {
+            transition: background-color 0.3s, transform 0.3s; /* Transisi untuk warna dan transformasi */
+            margin-top: 20px; /* Jarak tombol dari hasil */
+        }
+
+        .btn:hover {
+            transform: scale(1.05); /* Membesar sedikit saat hover */
+        }
+
+        /* Warna bagian atas dan bawah halaman */
+        .header {
+            background-color: #343a40; /* Warna bagian atas */
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+        }
+
+        .footer {
+            background-color: #f1f1f1; /* Warna bagian bawah */
+            padding: 20px 0;
+            text-align: center;
+            margin-top: auto; /* Agar footer berada di bawah */
+        }
+
+        .form-label {
+            color: #333; /* Warna label */
+        }
+
+        .form-control {
+            border-color: #666; /* Warna border */
+        }
+
+        .form-control:focus {
+            border-color: #007bff; /* Warna border saat fokus */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Efek bayangan */
+        }
+
+        /* Overlay 'harap tunggu' */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            color: white;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            align-items: center;
+            justify-content: center;
+        }
+
+    </style>
+</head>
+<body class="bg-light">
+
+    <div class="header">
+        <h1>Analisis Teknikal</h1>
+        <p>Evaluasi nilai saham dengan berbagai parameter keuangan</p>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <i class="fas fa-chart-line"></i>
+        <i class="fas fa-cogs"></i>
+        <i class="fas fa-history"></i>
+
+        <h3 class="menu-text text-center">Pilih Analisis</h3>
+        <button class="btn btn-outline-light w-100 mb-2 menu-text" onclick="window.location.href='/fundamental_analyze'">Fundamental</button>
+        <button class="btn btn-outline-light w-100 mb-2 menu-text" onclick="window.location.href='/technical'">Teknikal</button>
+        <button class="btn btn-outline-light w-100 menu-text" onclick="window.location.href='/ipo'">IPO</button>
+
+        <h3 class="menu-text text-center mt-4">Fitur Lainnya</h3>
+        <a href="/services" class="btn btn-outline-light w-100 menu-text">Dashboard</a> <!-- Tombol tampilkan history -->
+        <a href="/history" class="btn btn-outline-light w-100 menu-text">View History</a> <!-- Tombol tampilkan history -->
+    </div>
+
+    <!-- Konten -->
+    <div class="content-wrapper">
+        <div class="form-section">
+            <div class="container">
+                
+                <form id="technical-form" class="p-4 bg-white shadow rounded">
+                    <div class="form-group mb-3">
+                        <label for="moving_average">Moving Average:</label>
+                        <input type="number" step="0.01" class="form-control" id="moving_average" name="moving_average" placeholder="Enter Moving Average">
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="rsi">RSI:</label>
+                        <input type="number" step="0.01" class="form-control" id="rsi" name="rsi" placeholder="Enter RSI">
+                    </div>
+
+                    
+
+                    <div class="form-group mb-3">
+                        <label for="support">Support Break:</label>
+                        <small class="form-text text-muted">Pilih 'Yes' atau 'No'</small>
+                        <select class="form-control mt-1" id="support" name="support">
+                            <option value="">Silakan pilih</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                        <span class="position-absolute" style="right: 10px; top: 35px;">
+                            <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </div>
+
+                    <div class="form-group mb-3" >
+                        <label for="resistance" >Resistance Break:</label>
+                        <small class="form-text text-muted">Pilih 'Yes' atau 'No'</small>
+                        <select class="form-control mt-1" id="resistance" name="resistance">
+                            <option value="">Silakan pilih</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                        <span class="position-absolute" style="right: 10px; top: 35px;">
+                            <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </div>
+
+                    
+
+                    <div class="form-group mb-3">
+                        <label for="supply_demand">Supply Demand, lebih dari 1 = supply, kurang dari 1 = demand:</label>
+                        <input type="number" step="0.01" class="form-control" id="supply_demand" name="supply_demand" placeholder="Enter Supply Demand">
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="net_foreign_inflow">Net Foreign Inflow, Lebih besar dari 0 = Inflow, kurang dari 0 = Outflow:</label>
+                        <input type="number" step="0.01" class="form-control" id="net_foreign_inflow" name="net_foreign_inflow" placeholder="Enter Net Foreign Inflow">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Section untuk Pengertian Analisis Teknikal -->
+        <div class="info-section-wrapper">
+            <h2>
+            <a href="/seputar_saham">Pengertian Seputar Teknikal</a>
+            </h2>
+            <div class="info-section">
+                <img src="static/images/technical1.jpg" alt="Gambar Penjelasan Teknikal" class="img-fluid mb-3">
+                <p>Analisis teknikal adalah metode analisis harga saham dengan memeriksa pola-pola yang muncul dari data harga dan volume perdagangan historis untuk memperkirakan pergerakan harga di masa depan.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay"></div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        Sedang menganalisa, harap tunggu...
+    </div>
+
+    <div id="resultBox" class="animate__animated animate__fadeInUp">
+        <div class="emoji-container">
+            <span class="emoji">😊</span>
+        </div>
+        <h2>Recommendation</h2>
+        <div id="result"></div>
+        <button id="closeResult" class="btn btn-secondary">Close</button>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $("#technical-form").submit(function(event) {
+            event.preventDefault();
+            
+            // Menampilkan overlay "harap tunggu"
+            $('#loadingOverlay').css('display', 'flex');
+            
+            $.ajax({
+                url: "/submit_technical",
+                type: "POST",
+                data: $(this).serialize(),
+                success: function(data) {
+                    $('#loadingOverlay').hide(); // Sembunyikan overlay saat respons diterima
+                    $('.overlay').show();
+                    $('#resultBox').show();
+                    $('#result').html("<h3>" + data.recommendation + "</h3>");
+                },
+                error: function(error) {
+                    $('#loadingOverlay').hide(); // Sembunyikan overlay jika terjadi kesalahan
+                    $('#result').html("<h3>Error processing the request.</h3>");
+                }
+            });
+        });
+
+        $("#closeResult").click(function() {
+            $('#resultBox').hide();
+            $('.overlay').hide();
+        });
+    </script>
+
+    <div class="footer">
+        <p>&copy; 2024 Technical Analysis. All rights reserved.</p>
+    </div>
+
+</body>
+</html>
